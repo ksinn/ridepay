@@ -1,0 +1,23 @@
+
+
+    <h1>
+        Payout
+    </h1>
+
+
+    <h3>
+        Payouts history (last 30 days)
+    </h3>
+    <%if(wallet.payouts){
+    for(key in wallet.payouts){%>
+    <div> 
+        <%=wallet.payouts[key].amount%> in <%=new Date(wallet.payouts[key].time)%>
+    </div>
+    <%}
+    }%>
+
+
+
+
+
+

@@ -1,14 +1,14 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>TODO supply a title</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    </head>
-    <body>
-        <h1>Payout no <%=payout._id%></h1>
-        wallet no: <%=payout.account.no%><br>
-        payout amount: <%=payout.amount%><br>
-        payment time: <%=payout.time%><br>
-    </body>
-</html>
+<% layout('layout') -%>
+
+<div class="inner cover">
+    <div class="panel panel-default">
+        <div class="panel-title">
+            <h3>Payout № <%=payout._id%></h3>
+        </div>
+        <div class="panel-body text-left">
+            <strong>Wallet no:</strong> <%=payout.account.no%><br>
+            <strong>Amount:</strong> <%=payout.amount%><br>
+            <strong>Time:</strong> <%=new Date(payout.time)%><br>
+        </div>
+    </div>
+</div>

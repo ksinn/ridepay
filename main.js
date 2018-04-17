@@ -1,5 +1,6 @@
 var rpc = require('node-json-rpc');
 var express = require('express');
+engine = require('ejs-mate')
 var httpAuth = require('http-auth');
 var bodyParser = require('body-parser');
 var Pay = require('./pay_methods');
@@ -7,7 +8,7 @@ var Auth = require('./auth_controll');
 var Manager = require('./manager_methods');
 
 var serv = new rpc.Server({
-    port: 5080,
+    port: 3000,
     host: 'localhost',
     path: '/',
     strict: true,
@@ -45,17 +46,22 @@ var app = express();
 var basic = httpAuth.basic({realm: 'SUPER SECRET STUFF'},Auth.checkUser);
 var authMiddleware = httpAuth.connect(basic);
 
+app.engine('ejs', engine);
 app.set('view engine', 'ejs');
+app.set('views', './views');
 app.use(express.static('./public'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
-
+app.get('/', authMiddleware, function(req, res){
+    res.render('home');
+});
+app.get('/history/:no', authMiddleware, Manager.walletHistory);
 app.get('/wallet/:no', authMiddleware, Manager.walletInfo);
 app.post('/wallet/new', authMiddleware, Manager.addWallet);
 app.post('/payout', authMiddleware, Manager.doPayout);
 
-app.listen(3000, function () {
-    console.log('express start on port ', 3000);
+app.listen(3001, function () {
+    console.log('express start on port ', 3001);
 });
 

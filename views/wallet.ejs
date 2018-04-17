@@ -1,37 +1,25 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>TODO supply a title</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    </head>
-    <body>
-        <h1>
-            Wallet no <%=wallet.no%>
-        </h1>
-        <div>
-            amount: <%=wallet.amount%><br>
-            ownr: <%=wallet.ownr.name%> <%=wallet.ownr.family%>
-        </div>
-        <h1>
-            Payout
-        </h1>
-        <form action="/payout" method="post">
-            <input hidden name="account[no]" value='<%=wallet.no%>'>
-            amount: <input name="amount">
-            <input type="submit">
-        </form>
+<% layout('layout') -%>
 
-        <h3>
-            Payouts history (last 30 days)
-        </h3>
-        <%if(wallet.payouts){
-        for(key in wallet.payouts){%>
-        <div> 
-            <%=wallet.payouts[key].amount%> in <%=new Date(wallet.payouts[key].time)%>
-        </div>
-        <%}
-        }%>
 
-    </body>
-</html>
+<div class="inner cover">
+    <p class="lead">Wallet no <strong><%=wallet.no%></strong></p>
+    <p class="lead">Ownr: <%=wallet.ownr.name%> <%=wallet.ownr.family%></p>
+    <h2><%=wallet.amount%> sum</h2>
+    <p class="lead"><a href="/history/<%=wallet.no%>">History</a></p>
+    <form action="/payout" method="post" class="form-inline">
+        <div class="form-group">
+            <input hidden  name="account[no]" type="text" value="<%=wallet.no%>">
+            <input class="form-control" name="amount" type="number" max="500000" min="1">
+        </div>
+        <div class="form-group">
+            <button class="btn btn-default">
+                Payout
+            </button>
+        </div>
+    </form>
+</div>
+
+
+
+
+
