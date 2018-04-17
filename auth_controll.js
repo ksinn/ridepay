@@ -63,7 +63,8 @@ checkUser = function (username, password, col) {
 };
 
 checkPaymeUser = function (user, col) {
-    if (user[0] == "payme") {
+    
+    if (user[0] == "payme") {        
         checkUser(user[0], user[1], function (res) {
             col(res ? user : null);
         });
