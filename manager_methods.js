@@ -46,7 +46,6 @@ walletHistory = function (req, res) {
 };
 
 addWallet = function (req, res) {
-    console.log(req.body);
     wallet = req.body;
     wallet.amount = 0;
     Wallet.saveNewWallet(wallet, function (result, err) {
