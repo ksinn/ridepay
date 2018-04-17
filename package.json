@@ -15,6 +15,7 @@
         "ejs-mate": "^2.3.0",
         "express": "^4.16.3",
         "http-auth": "^3.2.3",
+        "mongodb": "^3.0.6",
         "node-json-rpc": "0.0.1"
     }
 }
