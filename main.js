@@ -1,6 +1,6 @@
 var rpc = require('node-json-rpc');
 var express = require('express');
-engine = require('ejs-mate')
+var engine = require('ejs-mate');
 var httpAuth = require('http-auth');
 var bodyParser = require('body-parser');
 var Pay = require('./pay_methods');
