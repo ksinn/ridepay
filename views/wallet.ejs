@@ -2,9 +2,9 @@
 
 
 <div class="inner cover">
-    <p class="lead">Wallet no <strong><%=wallet.no%></strong></p>
+    <p class="lead">Wallet №: <strong><%=wallet.no%></strong></p>
     <p class="lead">Ownr: <%=wallet.ownr.name%> <%=wallet.ownr.family%></p>
-    <h2><%=wallet.amount%> sum</h2>
+    <h2 class="text-info"><%=wallet.amount%> sum</h2>
     <p class="lead"><a href="/history/<%=wallet.no%>">History</a></p>
     <form action="/payout" method="post" class="form-inline">
         <div class="form-group">
@@ -12,7 +12,7 @@
             <input class="form-control" name="amount" type="number" max="500000" min="1">
         </div>
         <div class="form-group">
-            <button class="btn btn-default">
+            <button class="btn btn-primary">
                 Payout
             </button>
         </div>

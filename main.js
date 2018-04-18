@@ -1,3 +1,4 @@
+var conf = require('./conf.json');
 var rpc = require('node-json-rpc');
 var express = require('express');
 var engine = require('ejs-mate');
@@ -8,9 +9,9 @@ var Auth = require('./auth_controll');
 var Manager = require('./manager_methods');
 
 var serv = new rpc.Server({
-    port: 3000,
-    host: 'localhost',
-    path: '/',
+    port: conf.payPort,
+    host: conf.payHost,
+    path: conf.payPath,
     strict: true,
     auth: {
         ext: {
@@ -36,7 +37,7 @@ serv.start(function (error) {
     if (error)
         throw error;
     else
-        console.log('Server PaymeAPI running ...');
+        console.log('Server PaymeAPI start on ' + conf.payHost+':'+conf.payPort+conf.payPath);
 });
 
 
@@ -61,7 +62,7 @@ app.get('/wallet/:no', authMiddleware, Manager.walletInfo);
 app.post('/wallet/new', authMiddleware, Manager.addWallet);
 app.post('/payout', authMiddleware, Manager.doPayout);
 
-app.listen(3001, function () {
-    console.log('express start on port ', 3001);
+app.listen(conf.managerPort, function () {
+    console.log('express start on port ', conf.managerPort);
 });
 

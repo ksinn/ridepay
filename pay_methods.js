@@ -39,8 +39,10 @@ var CheckPerformTransaction = function (para, callback) {
 var CreateTransaction = function (para, callback) {
     var error, result = {};
     Transaction.getTransaction(para.id, function (res, err) {
+
         if (!err) {
             if (res) {
+                ;
                 //Транзакция найдена
                 if (res.state === 1) {
                     if ((new Date().getTime() - res.time) > timeout) {
@@ -70,27 +72,32 @@ var CreateTransaction = function (para, callback) {
             } else {
                 //Транзакция не найдена
                 CheckPerformTransaction(para, function (er, res) {
-                    if (res.allow) {
-                        //Транзакция прошла проверку.
-                        para.state = 1;
-                        para.create_time = new Date().getTime();
-                        Transaction.saveNewTransaction(para, function (res, er) {
-                            if (!er) {
-                                //Отправить данный транзакции
-                                result.state = res.state;
-                                result.transaction = res.transaction;
-                                result.create_time = res.create_time;
-                            } else {
-                                //Ошибка сохранения транзакции в БД
-                                error = {code: -32400};
-                            }
-                            callback(error, result);
-                        });
-
+                    if (!er) {
+                        if (res&&res.allow) {
+                            //Транзакция прошла проверку.
+                            para.state = 1;
+                            para.create_time = new Date().getTime();
+                            Transaction.saveNewTransaction(para, function (res, er) {
+                                if (!er) {
+                                    //Отправить данный транзакции
+                                    result.state = res.state;
+                                    result.transaction = res.transaction;
+                                    result.create_time = res.create_time;
+                                } else {
+                                    //Ошибка сохранения транзакции в БД
+                                    error = {code: -32400};
+                                }
+                                callback(error, result);
+                            });
+                        } else {
+                            //Транзакция не прошла проверку
+                            callback(er, res);
+                        }
                     } else {
                         //Транзакция не прошла проверку
                         callback(er, res);
                     }
+
                 });
             }
         } else {

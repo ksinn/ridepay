@@ -2,25 +2,50 @@ var Wallet = require('./wallet_controll');
 var Payout = require('./payout_transaction_controll');
 
 walletInfo = function (req, res) {
-    if (req.params.no === 'new') {
-        res.render('wallet_new');
-    } else {
-        Wallet.getWallet(req.params.no, function (result, err) {
-            if (!err) {
-                if (result) {
-                    Payout.getPayouts(result.no, new Date().getTime() - 3600 * 24 * 30 * 1000, new Date().getTime(), function (docs, err) {
-                        result.payouts = docs;
-                        res.render('wallet', {wallet: result});
-                    });
+    switch (req.params.no) {
+        case 'new':
+        {
+            res.render('wallet_new');
+            break;
+        }
+        case 'list':
+        {
+            walletsList(req, res);
+            break;
+        }
+        default:
+        {
+            Wallet.getWallet(req.params.no, function (result, err) {
+                if (!err) {
+                    if (result) {
+                        Payout.getPayouts(result.no, new Date().getTime() - 3600 * 24 * 30 * 1000, new Date().getTime(), function (docs, err) {
+                            result.payouts = docs;
+                            res.render('wallet', {wallet: result});
+                        });
+                    } else {
+                        res.render('error', {error: {message: {ru: "Не найден такой кошелек"}}});
+                    }
                 } else {
-                    res.render('error', {error: "Не найден такой кошелек"});
+                    res.render('error', {error: {message: {ru: "Ошибка чтения из бд"}}});
                 }
-            } else {
-                res.render('error', {error: err});
-            }
-        });
+            });
 
+        }
     }
+};
+
+walletsList = function (req, res) {
+    Wallet.getWallets({}, function (result, err) {
+        if (!err) {
+            if (result) {
+                res.render('wallets', {wallets: result});
+            } else {
+                res.render('error', {error: {message: {ru: "Не найден такой кошелек"}}});
+            }
+        } else {
+            res.render('error', {error: {message: {ru: "Ошибка чтения из бд"}}});
+        }
+    });
 };
 
 walletHistory = function (req, res) {
@@ -35,10 +60,10 @@ walletHistory = function (req, res) {
                         res.render('history', {wallet: result});
                     });
                 } else {
-                    res.render('error', {error: "Не найден такой кошелек"});
+                    res.render('error', {error: {message: {ru: "Не найден такой кошелек"}}});
                 }
             } else {
-                res.render('error', {error: err});
+                res.render('error', {error: {message: {ru: "Ошибка чтения из бд"}}});
             }
         });
 
@@ -52,7 +77,7 @@ addWallet = function (req, res) {
         if (!err) {
             res.redirect('/wallet/' + result.no);
         } else {
-            res.render('error', {error: err});
+            res.render('error', {error: {message: {ru: "Ошибка чтения из бд"}}});
         }
     });
 
@@ -60,8 +85,8 @@ addWallet = function (req, res) {
 
 doPayout = function (req, res) {
     payout = req.body;
-    if(payout.amount<0){
-        res.render('error', {error: {message:{ru:"Неверная сумма"}}});
+    if (payout.amount < 0) {
+        res.render('error', {error: {message: {ru: "Неверная сумма"}}});
         return;
     }
     Wallet.getWallet(payout.account.no, function (wallet, err) {
@@ -79,33 +104,33 @@ doPayout = function (req, res) {
                                                 if (saveResult) {
                                                     res.render('payout', {payout: result});
                                                 } else {
-                                                    res.render('error', {error: {message:{ru:"Выплата не совершена"}}});
+                                                    res.render('error', {error: {message: {ru: "Выплата не совершена"}}});
                                                 }
                                             } else {
-                                                res.render('error', {error: err});
+                                                res.render('error', {error: {message: {ru: "Ошибка чтения из бд"}}});
                                             }
                                         } else {
-                                            res.render('error', {error: {message:{ru:"Выплата не совершена"}}});
+                                            res.render('error', {error: {message: {ru: "Выплата не совершена"}}});
                                         }
                                     } else {
-                                        res.render('error', {error: err});
+                                        res.render('error', {error: {message: {ru: "Ошибка чтения из бд"}}});
                                     }
                                 });
                             } else {
-                                res.render('error', {error: {message:{ru:"Выплата не совершена"}}});
+                                res.render('error', {error: {message: {ru: "Выплата не совершена"}}});
                             }
                         } else {
-                            res.render('error', {error: err});
+                            res.render('error', {error: {message: {ru: "Ошибка чтения из бд"}}});
                         }
                     });
                 } else {
-                    res.render('error', {error: {message:{ru:"Недостаточно средств"}}});
+                    res.render('error', {error: {message: {ru: "Недостаточно средств"}}});
                 }
             } else {
-                res.render('error', {error: {message:{ru:"Кашелек не найден"}}});
+                res.render('error', {error: {message: {ru: "Кашелек не найден"}}});
             }
         } else {
-            res.render('error', {error: err});
+            res.render('error', {error: {message: {ru: "Ошибка чтения из бд"}}});
         }
     });
 

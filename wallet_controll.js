@@ -31,6 +31,33 @@ getWallet = function (no, col) {
 
 };
 
+getWallets = function (query, col) {
+    Mongo.execute(function (err, db) {
+        if (!err) {
+            var collection = db.collection('wallet');
+            collection.find(query, function (err, docs) {
+                if (!err) {
+                    docs.toArray(function (err, docs) {
+                        if (!err) {
+                            col(docs, null);
+                        } else {
+                            col(null, err);
+                        }
+                    });
+                } else {
+                    col(null, err);
+                }
+            });
+        } else {
+            //Ошибка чтения из бд
+            col(null, err);
+        }
+
+    });
+
+};
+
+
 saveWallet = function (wallet, col) {
     Mongo.execute(function (err, db) {
         if (!err) {
@@ -42,7 +69,7 @@ saveWallet = function (wallet, col) {
                     if (!err) {
                         //Обновлено успешно
                         wallet.no = o_id;
-                        col(updated_doc.result.nModified===1?wallet:null, null);
+                        col(updated_doc.result.nModified === 1 ? wallet : null, null);
                     } else {
                         //Обновление с ошибкой
                         col(null, err);
@@ -81,8 +108,8 @@ saveNewWallet = function (wallet, col) {
 };
 
 putMoney = function (no, amount, col) {
-    if(amount<0){
-        col(null, {message:{ru:"Неверная сумма"}});
+    if (amount < 0) {
+        col(null, {message: {ru: "Неверная сумма"}});
         return;
     }
     getWallet(no, function (res, err) {
@@ -100,8 +127,8 @@ putMoney = function (no, amount, col) {
 };
 
 getMoney = function (no, amount, col) {
-    if(amount<0){
-        col(null, {message:{ru:"Неверная сумма"}});
+    if (amount < 0) {
+        col(null, {message: {ru: "Неверная сумма"}});
         return;
     }
     getWallet(no, function (res, err) {
@@ -119,6 +146,7 @@ getMoney = function (no, amount, col) {
 };
 
 exports.getWallet = getWallet;
+exports.getWallets = getWallets;
 exports.putMoney = putMoney;
 exports.getMoney = getMoney;
 exports.saveNewWallet = saveNewWallet;

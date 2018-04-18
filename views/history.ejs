@@ -1,20 +1,28 @@
+<% layout('basic') -%>
 
+<h3>
+    Payouts history (last 30 days)
+</h3>
 
-    <h1>
-        Payout
-    </h1>
+<%if(wallet.payouts){%>
+<table class="table">
+    <tr>
+        <td>Amount</td>
+        <td>Time</td>
+    </tr>
+    <%for(key in wallet.payouts){%>
+    <tr>
+        <td>
+            <%=wallet.payouts[key].amount%>
+        </td>
+        <td>
+            <%=new Date(wallet.payouts[key].time)%>
+        </td>
+    </tr>
+    <%}%>
+</table>
+<%}%>
 
-
-    <h3>
-        Payouts history (last 30 days)
-    </h3>
-    <%if(wallet.payouts){
-    for(key in wallet.payouts){%>
-    <div> 
-        <%=wallet.payouts[key].amount%> in <%=new Date(wallet.payouts[key].time)%>
-    </div>
-    <%}
-    }%>
 
 
 

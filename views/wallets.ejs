@@ -1,0 +1,31 @@
+<% layout('basic') -%>
+
+<h3>
+    Wallets list
+</h3>
+
+<%if(wallets){%>
+<table class="table">
+    <tr>
+        <td>Ownr</td>
+        <td>№</td>
+    </tr>
+    <%for(key in wallets){%>
+    <tr>
+        <td>
+            <%=wallets[key].ownr.name%> <%=wallets[key].ownr.family%>
+        </td>
+        <td>
+            <a href="<%=wallets[key]._id%>"><%=wallets[key]._id%></a>
+        </td>
+    </tr>
+    <%}%>
+</table>
+<%}%>
+
+
+
+
+
+
+

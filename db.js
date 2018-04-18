@@ -1,6 +1,7 @@
+var conf = require('./conf.json');
 var MongoClient = require('mongodb').MongoClient;
 var ObjectID = require('mongodb').ObjectID;
-var url = 'mongodb://localhost:27017/';
+var url = 'mongodb://'+conf.mongoHost+':'+conf.mongoPort+'/';
 
 
 

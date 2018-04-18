@@ -1,0 +1,8 @@
+{
+    "payPort": "3000",
+    "payHost": "localhost",
+    "payPath": "/",
+    "managerPort": "3001",
+    "mongoPort": "27017",
+    "mongoHost": "localhost"
+}
