@@ -31,7 +31,15 @@ var CheckPerformTransaction = function (para, callback) {
         });
     } else {
         //Не правельная сумма перевода
-        error = {code: -31001};
+        error = {
+            code: -31001,
+            message: {
+                ru: "Не верная сумма платежа",
+                en: "Error amount",
+                uz: "Vdfbdfb"
+            },
+            data: "no"
+        };
         callback(error, result);
     }
 };
@@ -73,7 +81,7 @@ var CreateTransaction = function (para, callback) {
                 //Транзакция не найдена
                 CheckPerformTransaction(para, function (er, res) {
                     if (!er) {
-                        if (res&&res.allow) {
+                        if (res && res.allow) {
                             //Транзакция прошла проверку.
                             para.state = 1;
                             para.create_time = new Date().getTime();
