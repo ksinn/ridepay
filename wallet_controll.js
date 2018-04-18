@@ -18,7 +18,7 @@ getWallet = function (no, col) {
                         col(null, err);
                     }
                 });
-            } else {
+            } else { 
                 //Не верный формат nо
                 col(null, null);
             }
