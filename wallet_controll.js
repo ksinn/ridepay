@@ -20,7 +20,7 @@ getWallet = function (no, col) {
                 });
             } else {
                 //Не верный формат nо
-                col(null, {message: "Error no format"});
+                col(null, null);
             }
         } else {
             //Ошибка чтения из бд
