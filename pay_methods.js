@@ -29,7 +29,7 @@ var CheckPerformTransaction = function (para, callback) {
             }
             callback(error, result);
         });
-    } else {
+    } else { 
         //Не правельная сумма перевода
         error = {
             code: -31001,
