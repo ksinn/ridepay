@@ -87,7 +87,7 @@ var CreateTransaction = function (para, callback) {
                             para.create_time = new Date().getTime();
                             para.perform_time = 0;
                             para.cancel_time = 0;
-                            res.reason = null;
+                            para.reason = null;
                             Transaction.saveNewTransaction(para, function (res, er) {
                                 if (!er) {
                                     //Отправить данный транзакции
