@@ -2,9 +2,9 @@
 
 
 <div class="inner cover">
-    <div class="bg-white">
-        <div id="qr-container"></div>
-    </div>
+    <button class="btn btn-success" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+        QR-code
+    </button>
     <p class="lead">Wallet №: <strong><%=wallet.no%></strong></p>
     <p class="lead">Ownr: <%=wallet.ownr.name%> <%=wallet.ownr.family%></p>
     <h2 class="text-info"><%=wallet.amount%> sum</h2>
@@ -21,22 +21,27 @@
         </div>
     </form>
 </div>
+
+
+
+<div class="collapse" id="collapseExample">
+    <div class="well">
+        <input id="amount_value" value="1200" onchange="document.body.onload();">
+        <form id="form-payme" method="POST" action="https://checkout.paycom.uz/">
+            <input type="hidden" name="merchant" value="5ad72a742b9cc17e5ee1b78a">
+            <input type="hidden" name="account[no]" value="<%=wallet.no%>">
+            <input id="check-amount" type="hidden" name="amount" value="500">
+            <input type="hidden" name="lang" value="ru">
+            <input type="hidden" name="qr" data-width="250">
+            <div id="qr-container"></div>
+        </form>
+    </div>
+</div>
+
 <script src="https://cdn.paycom.uz/integration/js/checkout.min.js"></script>
-
 <script>
-    document.body.onload = function(){Paycom.QR('#form-payme', '#qr-container');};
+            document.body.onload = function () {
+                $("#check-amount").val($("#amount_value").val());
+                Paycom.QR('#form-payme', '#qr-container');
+            };
 </script>
-
-
-
-<form class="hide" id="form-payme" method="POST" action="https://test.paycom.uz/">
-    <input type="hidden" name="merchant" value="5ad72a742b9cc17e5ee1b78a">
-    <input type="hidden" name="account[order_id]" value="197">
-    <input type="hidden" name="amount" value="500">
-    <input type="hidden" name="lang" value="ru">
-    <input type="hidden" name="qr" data-width="250">
-</form>
-
-
-
-
