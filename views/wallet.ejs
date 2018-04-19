@@ -2,10 +2,13 @@
 
 
 <div class="inner cover">
-    <button class="btn btn-success" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-        QR-code
-    </button>
-    <p class="lead">Wallet №: <strong><%=wallet.no%></strong></p>
+
+    <p class="lead">
+        Wallet №: <strong><%=wallet.no%></strong> 
+        <button class="btn btn-sm btn-success" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+            QR-code
+        </button> 
+    </p>
     <p class="lead">Ownr: <%=wallet.ownr.name%> <%=wallet.ownr.family%></p>
     <h2 class="text-info"><%=wallet.amount%> sum</h2>
     <p class="lead"><a href="/history/<%=wallet.no%>">History</a></p>
